@@ -1,0 +1,99 @@
+version: '3.8'
+
+services:
+  # Backend Node.js
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: routeapp-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=routeapp
+      - DB_PASSWORD=routeapp_password
+      - DB_NAME=routeapp_db
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      - postgres
+    networks:
+      - routeapp-network
+    command: npm run dev
+
+  # Frontend Vue.js (Web)
+  vuejs:
+    build:
+      context: ./web/vuejs
+      dockerfile: Dockerfile
+    container_name: routeapp-vuejs
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://localhost:3000
+    volumes:
+      - ./web/vuejs:/app
+      - /app/node_modules
+    networks:
+      - routeapp-network
+    command: npm run dev
+
+  # Mobile Ionic React
+  ionic:
+    build:
+      context: ./mobile/ionic-react
+      dockerfile: Dockerfile
+    container_name: routeapp-ionic
+    ports:
+      - "8100:8100"
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_API_URL=http://localhost:3000
+    volumes:
+      - ./mobile/ionic-react:/app
+      - /app/node_modules
+    networks:
+      - routeapp-network
+    command: npm start
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: routeapp-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=routeapp
+      - POSTGRES_PASSWORD=routeapp_password
+      - POSTGRES_DB=routeapp_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d
+    networks:
+      - routeapp-network
+
+  # pgAdmin (interface graphique pour PostgreSQL)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: routeapp-pgadmin
+    ports:
+      - "5050:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@routeapp.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    depends_on:
+      - postgres
+    networks:
+      - routeapp-network
+
+networks:
+  routeapp-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

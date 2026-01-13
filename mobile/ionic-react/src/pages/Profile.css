@@ -1,0 +1,28 @@
+.profile-header {
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-secondary));
+  color: white;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 1rem;
+  border: 3px solid white;
+}
+
+.profile-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.profile-header p {
+  margin: 0.5rem 0 0;
+  opacity: 0.8;
+}
+
+.logout-container {
+  padding: 1rem;
+  margin-top: 2rem;
+}

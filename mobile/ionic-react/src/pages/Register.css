@@ -1,0 +1,21 @@
+.register-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+.register-container h1 {
+  text-align: center;
+  color: var(--ion-color-primary);
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.register-button {
+  margin-top: 2rem;
+}
+
+.error-message {
+  text-align: center;
+  margin: 1rem 0;
+}
