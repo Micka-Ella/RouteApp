@@ -1,0 +1,14 @@
+node_modules
+.env
+.env.local
+*.log
+dist
+build
+.DS_Store
+Thumbs.db
+.idea
+.vscode
+*.swp
+*.swo
+coverage
+.nyc_output
