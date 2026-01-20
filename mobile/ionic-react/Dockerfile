@@ -1,3 +1,11 @@
+FROM node:18-alpine
+WORKDIR /app
+ENV CI=true
+COPY package*.json ./
+RUN npm ci
+COPY . .
+EXPOSE 8100
+CMD ["npx","ionic","serve","--host","0.0.0.0","--port","8100","--external"]
 # Dockerfile pour Ionic React Mobile
 FROM node:20-alpine
 
